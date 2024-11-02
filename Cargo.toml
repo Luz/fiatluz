@@ -1,0 +1,12 @@
+[package]
+name = "fiatluz"
+version = "0.1.0"
+authors = ["Luz"]
+description = "An enlightening fast geometry library written in Rust."
+homepage = "https://github.com/Luz/fiatluz"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/Luz/fiatluz"
+edition = "2021"
+
+[dependencies]
