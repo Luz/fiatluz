@@ -125,6 +125,28 @@ fn test_polygon_get_area() {
     assert_eq!(1.0f64, get_area(&path));
 }
 #[test]
+fn test_get_area_positive() {
+    let p: Path = Path {
+        path: vec![
+            Point { x: 0, y: 0 },
+            Point { x: 2, y: 0 },
+            Point { x: 0, y: 2 },
+        ],
+    };
+    assert_eq!(2f64, get_area(&p));
+}
+#[test]
+fn test_get_area_negative() {
+    let p: Path = Path {
+        path: vec![
+            Point { x: 0, y: 0 },
+            Point { x: 0, y: 2 },
+            Point { x: 2, y: 0 },
+        ],
+    };
+    assert_eq!(-2f64, get_area(&p));
+}
+#[test]
 fn test_point_in_polygon() {
     let p1 = Point { x: 1, y: 2 };
     let p2 = Point { x: 2, y: 2 };
@@ -146,15 +168,4 @@ fn test_point_in_polygon() {
     assert_eq!(false, is_point_in_polygon(s.clone(), &path));
     path.path.push(p6);
     assert_eq!(true, is_point_in_polygon(s.clone(), &path));
-}
-#[test]
-fn test_get_area() {
-    let p1 = Point { x: 0, y: 0 };
-    let p2 = Point { x: 2, y: 0 };
-    let p3 = Point { x: 0, y: 2 };
-    let mut path = Path::default();
-    path.path.push(p1);
-    path.path.push(p2);
-    path.path.push(p3);
-    assert_eq!(2f64, get_area(&path));
 }
