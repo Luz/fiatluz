@@ -1,7 +1,7 @@
 use core::cmp::{max, min};
 use core::ops::{Add, AddAssign, Sub};
 
-#[derive(Debug, Default, Clone)]
+#[derive(Debug, Default, Clone, Copy)]
 #[repr(C)]
 pub struct Point {
     pub x: i64,
@@ -69,7 +69,7 @@ pub fn is_point_in_polygon(q: Point, p: &Path) -> bool {
     let mut min_y = p.path[0].y;
     let mut max_y = p.path[0].y;
     for i in 1..p.path.len() {
-        let c = p.path[i].clone();
+        let c = p.path[i];
         min_x = min(c.x, min_x);
         max_x = max(c.x, max_x);
         min_y = min(c.y, min_y);
@@ -162,15 +162,15 @@ fn test_point_in_polygon() {
     let mut path = Path::default();
     path += p1;
     let s = Point { x: 0, y: 2 };
-    assert_eq!(false, is_point_in_polygon(s.clone(), &path));
+    assert_eq!(false, is_point_in_polygon(s, &path));
     path += p2;
-    assert_eq!(false, is_point_in_polygon(s.clone(), &path));
+    assert_eq!(false, is_point_in_polygon(s, &path));
     path += p3;
-    assert_eq!(false, is_point_in_polygon(s.clone(), &path));
+    assert_eq!(false, is_point_in_polygon(s, &path));
     path += p4;
-    assert_eq!(false, is_point_in_polygon(s.clone(), &path));
+    assert_eq!(false, is_point_in_polygon(s, &path));
     path += p5;
-    assert_eq!(false, is_point_in_polygon(s.clone(), &path));
+    assert_eq!(false, is_point_in_polygon(s, &path));
     path += p6;
-    assert_eq!(true, is_point_in_polygon(s.clone(), &path));
+    assert_eq!(true, is_point_in_polygon(s, &path));
 }
