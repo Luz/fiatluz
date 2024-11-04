@@ -1,5 +1,5 @@
 use core::cmp::{max, min};
-use core::ops::{Add, Sub};
+use core::ops::{Add, AddAssign, Sub};
 
 #[derive(Debug, Default, Clone)]
 #[repr(C)]
@@ -24,6 +24,11 @@ impl Add for Point {
             x: self.x + other.x,
             y: self.y + other.y,
         }
+    }
+}
+impl AddAssign<Point> for Path {
+    fn add_assign(&mut self, point: Point) {
+        self.path.push(point);
     }
 }
 impl Sub for Point {
@@ -52,7 +57,7 @@ fn get_area(p: &Path) -> f64 {
 }
 
 pub fn add_point_to_path(p: Point, handle: &mut Path) {
-    handle.path.push(p);
+    *handle += p;
 }
 
 pub fn is_point_in_polygon(q: Point, p: &Path) -> bool {
@@ -115,13 +120,13 @@ fn test_polygon_get_area() {
     let p3 = Point { x: 2, y: 3 };
     let p4 = Point { x: 1, y: 3 };
     let mut path = Path::default();
-    path.path.push(p1);
+    path += p1;
     assert_eq!(0f64, get_area(&path));
-    path.path.push(p2);
+    path += p2;
     assert_eq!(0f64, get_area(&path));
-    path.path.push(p3);
+    path += p3;
     assert_eq!(0.5f64, get_area(&path));
-    path.path.push(p4);
+    path += p4;
     assert_eq!(1.0f64, get_area(&path));
 }
 #[test]
@@ -155,17 +160,17 @@ fn test_point_in_polygon() {
     let p5 = Point { x: -2, y: 4 };
     let p6 = Point { x: 0, y: -2 };
     let mut path = Path::default();
-    path.path.push(p1);
+    path += p1;
     let s = Point { x: 0, y: 2 };
     assert_eq!(false, is_point_in_polygon(s.clone(), &path));
-    path.path.push(p2);
+    path += p2;
     assert_eq!(false, is_point_in_polygon(s.clone(), &path));
-    path.path.push(p3);
+    path += p3;
     assert_eq!(false, is_point_in_polygon(s.clone(), &path));
-    path.path.push(p4);
+    path += p4;
     assert_eq!(false, is_point_in_polygon(s.clone(), &path));
-    path.path.push(p5);
+    path += p5;
     assert_eq!(false, is_point_in_polygon(s.clone(), &path));
-    path.path.push(p6);
+    path += p6;
     assert_eq!(true, is_point_in_polygon(s.clone(), &path));
 }
